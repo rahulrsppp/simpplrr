@@ -1,0 +1,77 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.rahul.simpplr"
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+def appCompactVersion = '1.1.0'
+def materialVersion = '1.0.0'
+def constraintLayoutVersion = '1.1.3'
+def jUnitVersion = '4.12'
+def testRunnerVersion = '1.2.0'
+def espressoVersion = '3.2.0'
+def daggerVersion = '2.22'
+def daggerCompilerVersion = '2.15'
+def daggerAndroidSupportVersion = '2.16'
+def daggerAndroidProcessorVersion = '2.15'
+def archLifeCycleExtensionVersion = '2.1.0'
+def retrofitVersion = '2.4.0'
+def convertorScalarVersion = '2.3.0'
+def rxVersion = '2.0.1'
+def adapterRxVersion = '2.4.0'
+def glideVersion = '3.7.0'
+def androidAuthVersion = '1.1.0'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "androidx.appcompat:appcompat:$appCompactVersion"
+    implementation "com.google.android.material:material:$materialVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+    testImplementation "junit:junit:$jUnitVersion"
+    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion" // if you use the support libraries
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
+    implementation "android.arch.lifecycle:extensions:$archLifeCycleExtensionVersion"
+    implementation  "com.spotify.android:auth:$androidAuthVersion" // Maven dependency
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation  "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation  "com.squareup.retrofit2:converter-scalars:$convertorScalarVersion"
+
+    implementation "io.reactivex.rxjava2:rxandroid:$rxVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rxVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$adapterRxVersion"
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+
+
+    implementation project(path: ':auth-lib')
+    implementation project(path: ':app-remote-lib')
+
+}
