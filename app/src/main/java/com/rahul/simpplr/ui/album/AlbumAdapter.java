@@ -24,7 +24,7 @@ public class AlbumAdapter extends RecyclerView.Adapter{
     private Listeners.ItemClickListener listener;
 
 
-    public AlbumAdapter(List<AlbumResponseModel.AlbumData> albumList, Listeners.ItemClickListener listener, Context context) {
+    AlbumAdapter(List<AlbumResponseModel.AlbumData> albumList, Listeners.ItemClickListener listener, Context context) {
         this.albumList = albumList;
         this.listener= listener;
         this.context= context;
@@ -46,16 +46,15 @@ public class AlbumAdapter extends RecyclerView.Adapter{
                 AlbumViewHolder albumViewHolder = ((AlbumViewHolder) holder);
                 String albumName = albumData.getName();
                 String description = albumData.getDescription();
-                String trackToSet = "Total Tracks: ";
-                String nameToSet = "Album: " + (albumName != null && albumName.length() > 0 ? albumName : context.getString(R.string.na));
+                String trackToSet = "Tracks: ";
+                String nameToSet = (albumName != null && albumName.length() > 0 ? albumName : context.getString(R.string.na));
                 String descriptionToSet = "Description: " + (description != null && description.length() > 0 ? description : context.getString(R.string.na));
 
                 if (albumData.getImages() != null) {
                     AlbumResponseModel.AlbumData images = albumData.getImages().get(0);
 
                     if (images.getImageUrl() != null)
-                        Glide.with(context).load(images.getImageUrl()).placeholder(R.drawable.placeholder).into(albumViewHolder.rowBinding.ivAlbum);
-
+                        Glide.with(context).load(images.getImageUrl()).placeholder(R.mipmap.placeholder).into(albumViewHolder.rowBinding.ivAlbum);
                 }
 
                 if (albumData.getTracks() != null) {
@@ -67,9 +66,7 @@ public class AlbumAdapter extends RecyclerView.Adapter{
                 albumViewHolder.rowBinding.tvText1.setText(descriptionToSet);
                 albumViewHolder.rowBinding.tvText2.setText(trackToSet);
 
-                albumViewHolder.rowBinding.getRoot().setOnClickListener(v -> {
-                    listener.onItemClick(albumData, null);
-                });
+                albumViewHolder.rowBinding.getRoot().setOnClickListener(v -> listener.onItemClick(albumData, null));
         }
     }
 

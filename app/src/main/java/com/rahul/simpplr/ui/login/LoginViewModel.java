@@ -4,7 +4,6 @@ package com.rahul.simpplr.ui.login;
 
 import android.content.Context;
 
-import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
@@ -26,13 +25,12 @@ import io.reactivex.schedulers.Schedulers;
 
 public class LoginViewModel extends BaseViewModel {
     private static final String CLIENT_ID = "72d38cf29b9c49eaa1feed277944fba6";
-    private String URL = "http://eduinsight.edunexttechnologies.com/mobapps/management/schoolmailbox";
 
-    private final ObservableBoolean isLoginButtonVisible = new ObservableBoolean(true);
 
     private MutableLiveData<Integer> outputObservable = new MutableLiveData<>();
+    private MutableLiveData<Boolean> showProgressObservable = new MutableLiveData<>();
 
-    public MutableLiveData<Integer> getOutputObservable() {
+    MutableLiveData<Integer> getOutputObservable() {
         return outputObservable;
     }
 
@@ -47,17 +45,16 @@ public class LoginViewModel extends BaseViewModel {
     PreferencesHelper preferencesHelper;
 
     @Inject
-    public LoginViewModel() {
+    LoginViewModel() {
         super();
         init();
     }
 
     private void init() {
-        setIsLoading(true);
-        setIsLoginButtonVisible(true);
+        showProgressObservable.setValue(false);
     }
 
-    public AuthenticationRequest getAuthenticationRequest() {
+    AuthenticationRequest getAuthenticationRequest() {
         return new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, "https://simpplr/callback")
                 .setShowDialog(false)
                 .setScopes(new String[]{"user-read-email"})
@@ -65,16 +62,13 @@ public class LoginViewModel extends BaseViewModel {
                 .build();
     }
 
-    public ObservableBoolean getIsLoginButtonVisible() {
-        return isLoginButtonVisible;
-    }
-    public void setIsLoginButtonVisible(boolean isVisible) {
-         isLoginButtonVisible.set(isVisible);
+    MutableLiveData<Boolean> manageVisibility() {
+        return showProgressObservable;
     }
 
+
     void fetchProfileInfo() {
-        setIsLoading(true);
-        setIsLoginButtonVisible(false);
+        showProgressObservable.setValue(true);
 
         getCompositeDisposable().add(apiInterface.getUserProfile(getAuthToken(preferencesHelper))
                 .subscribeOn(Schedulers.io())
@@ -83,14 +77,13 @@ public class LoginViewModel extends BaseViewModel {
                     if (response != null) {
                         JSONObject jsonObject=new JSONObject(response);
 
-                        if(!isTokenExpired(jsonObject)) {
+                        if(isTokenExist(jsonObject)) {
 
                             ProfileResponseModel  profileResponse =  new Gson().fromJson(response,ProfileResponseModel.class);
 
                             String userId = profileResponse.getId();
                             String name = profileResponse.getName();
                             String email = profileResponse.getEmail();
-                            // String images = profileResponse.getImages();
 
                             preferencesHelper.setStringData(AppPreferencesHelper.PREF_KEY_USER_ID, userId != null && userId.length() > 0 ? userId : null);
                             preferencesHelper.setStringData(AppPreferencesHelper.PREF_KEY_USER_NAME, name != null && name.length() > 0 ? userId : null);
@@ -103,12 +96,10 @@ public class LoginViewModel extends BaseViewModel {
                         }
 
                     }
-                    setIsLoading(false);
-                    setIsLoginButtonVisible(true);
+                    showProgressObservable.setValue(false);
                 }, throwable -> {
-                    setIsLoading(false);
-                    setIsLoginButtonVisible(true);
-                    getToastObservable().setValue(throwable.getMessage());
+                    showProgressObservable.setValue(false);
+                    getToastObservable().setValue(ToastAndErrorMessage.PLEASE_CHECK_INTERNET);
                 }));
     }
 

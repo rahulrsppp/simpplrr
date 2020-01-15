@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.rahul.simpplr.R;
 import com.rahul.simpplr.base.BaseFragment;
@@ -31,7 +30,6 @@ import javax.inject.Inject;
 
 public class AlbumTrackFragment extends BaseFragment<FragmentAlbumBinding, AlbumViewModel> implements Listeners.ItemClickListener {
 
-    public static final String TAG = AlbumTrackFragment.class.getSimpleName();
     private static final String PLAYLIST_ID = "PLAYLIST_ID";
 
     @Inject
@@ -116,7 +114,7 @@ public class AlbumTrackFragment extends BaseFragment<FragmentAlbumBinding, Album
 
     private void setAdapter() {
         albumTrackList =new ArrayList<>();
-        adapter = new AlbumTrackAdapter(albumTrackList,this, getContext());
+        adapter = new AlbumTrackAdapter(albumTrackList, getContext());
         mBinding.rvAlbum.setLayoutManager(new LinearLayoutManager(getContext()));
         mBinding.rvAlbum.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         mBinding.rvAlbum.setAdapter(adapter);

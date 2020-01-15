@@ -9,11 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.rahul.simpplr.R;
 import com.rahul.simpplr.databinding.ListGroupChildBinding;
-import com.rahul.simpplr.databinding.ListGroupParentBinding;
-import com.rahul.simpplr.ui.album.AlbumResponseModel;
 import com.rahul.simpplr.ui.album.AlbumTracksResponseModel;
 import com.rahul.simpplr.ui.album.TracksResponseData;
 import com.rahul.simpplr.utility.Listeners;
@@ -27,7 +24,7 @@ public class DrawerTrackAdapter extends RecyclerView.Adapter<DrawerTrackAdapter.
     private Listeners.ItemClickListener listener;
 
 
-    public DrawerTrackAdapter(List<AlbumTracksResponseModel.AlbumTracksData> trackList, Context context) {
+    DrawerTrackAdapter(List<AlbumTracksResponseModel.AlbumTracksData> trackList, Context context) {
         this.listener=  ( Listeners.ItemClickListener) context;
         this.context= context;
         this.trackList= trackList;

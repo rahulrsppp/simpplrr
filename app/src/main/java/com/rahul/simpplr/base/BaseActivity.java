@@ -31,9 +31,7 @@ public  abstract class BaseActivity<V extends ViewDataBinding, T extends ViewMod
         return viewBinding;
     }
 
-    public T getViewModel() {
-        return viewModel;
-    }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

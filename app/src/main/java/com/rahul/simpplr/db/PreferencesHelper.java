@@ -12,7 +12,4 @@ public interface PreferencesHelper {
 
     void setBooleanData(String key, Boolean data);
 
-    Integer getIntData(String key);
-
-    void setIntData(String key,int data);
 }

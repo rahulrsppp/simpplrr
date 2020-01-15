@@ -68,10 +68,8 @@ public class AlbumResponseModel {
 
         private int isSelected;
 
-        public AlbumData() {
-        }
 
-        public AlbumData(Parcel in) {
+        AlbumData(Parcel in) {
             id = in.readString();
             name = in.readString();
             description = in.readString();

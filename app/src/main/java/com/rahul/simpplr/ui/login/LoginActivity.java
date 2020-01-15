@@ -3,25 +3,17 @@ package com.rahul.simpplr.ui.login;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.google.android.material.navigation.NavigationView;
 import com.rahul.simpplr.R;
 import com.rahul.simpplr.base.BaseActivity;
 import com.rahul.simpplr.databinding.ActivityLoginBinding;
-import com.rahul.simpplr.databinding.ActivityMainBinding;
 import com.rahul.simpplr.db.AppPreferencesHelper;
 import com.rahul.simpplr.db.PreferencesHelper;
 import com.rahul.simpplr.ui.main.MainActivity;
-import com.rahul.simpplr.ui.main.MainViewModel;
 import com.rahul.simpplr.utility.ViewModelFactory;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
@@ -42,7 +34,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     Context context;
 
     private LoginViewModel viewModel;
-    private String mAccessToken="";
+    private ActivityLoginBinding mBinding;
 
     @Override
     protected int setLayoutId() {
@@ -58,6 +50,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       mBinding =  getViewBinding();
         manageCondition();
         subscribeObserver();
     }
@@ -65,12 +58,15 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     private void subscribeObserver() {
         viewModel.getToastObservable().observe(this, this::showToast);
         viewModel.getOutputObservable().observe(this, integer -> {
-
             if(integer == 1){
                 preferencesHelper.setBooleanData(AppPreferencesHelper.PREF_KEY_IS_LOGGED_IN, true);
-
                 navigateToMainActivity();
             }
+        });
+
+        viewModel.manageVisibility().observe(this, showProgress -> {
+            mBinding.btnLogin.setVisibility(showProgress? View.GONE:View.VISIBLE);
+            mBinding.progressBar.setVisibility(showProgress? View.VISIBLE:View.GONE);
         });
     }
 
@@ -94,9 +90,9 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         final AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, data);
 
         if (requestCode == AUTH_TOKEN_REQUEST_CODE) {
-            mAccessToken = response.getAccessToken();
+            String mAccessToken = response.getAccessToken();
 
-            if(mAccessToken!=null && mAccessToken.length()>0) {
+            if(mAccessToken !=null && mAccessToken.length()>0) {
                 System.out.println("::: Token: " + mAccessToken);
                 preferencesHelper.setStringData(AppPreferencesHelper.PREF_KEY_ACCESS_TOKEN, mAccessToken);
                 viewModel.fetchProfileInfo();

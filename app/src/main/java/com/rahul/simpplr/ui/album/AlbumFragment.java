@@ -30,7 +30,6 @@ import javax.inject.Inject;
 
 public class AlbumFragment extends BaseFragment<FragmentAlbumBinding, AlbumViewModel> implements Listeners.ItemClickListener {
 
-    public static final String TAG = AlbumFragment.class.getSimpleName();
 
     @Inject
     ViewModelFactory factory;
@@ -86,9 +85,7 @@ public class AlbumFragment extends BaseFragment<FragmentAlbumBinding, AlbumViewM
     }
 
     private void setListener() {
-        mBinding.swipeRefresh.setOnRefreshListener(() -> {
-            viewModel.fetchAlbumInfo();
-        });
+        mBinding.swipeRefresh.setOnRefreshListener(() -> viewModel.fetchAlbumInfo());
     }
 
     @Override

@@ -15,7 +15,6 @@ public class AppPreferencesHelper implements PreferencesHelper {
     public static final String PREF_KEY_USER_EMAIL = "PREF_KEY_USER_EMAIL";
     public static final String PREF_KEY_USER_ID = "PREF_KEY_USER_ID";
     public static final String PREF_KEY_USER_NAME = "PREF_KEY_USER_NAME";
-    public static final String PREF_KEY_USER_IMAGE= "PREF_KEY_USER_IMAGE";
 
 
     private final SharedPreferences mPrefs;

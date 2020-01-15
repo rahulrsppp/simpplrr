@@ -3,6 +3,7 @@ package com.rahul.simpplr.ui.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -69,9 +70,18 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, AlbumViewMod
         setDrawer();
         setAdapter();
         subscribeObserver();
+        setListener();
 
         AlbumFragment albumFragment = AlbumFragment.newInstance();
         setFragment(albumFragment);
+    }
+
+    private void setListener() {
+        View view = mBinding.navView.getHeaderView(0);
+        ImageView ivLogout = view.findViewById(R.id.ivLogout);
+        ivLogout.setOnClickListener(v ->{
+            onLogout(null);
+        });
     }
 
 

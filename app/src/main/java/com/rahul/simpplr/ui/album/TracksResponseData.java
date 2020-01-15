@@ -38,7 +38,7 @@ public class TracksResponseData implements Parcelable{
         private String imageUrl ;
 
 
-    protected TracksResponseData(Parcel in) {
+    private TracksResponseData(Parcel in) {
         album = in.readParcelable(AlbumTracksResponseModel.AlbumTracksData.class.getClassLoader());
         artists = in.createTypedArrayList(AlbumTracksResponseModel.AlbumTracksData.CREATOR);
         name = in.readString();

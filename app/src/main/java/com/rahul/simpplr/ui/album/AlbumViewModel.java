@@ -4,10 +4,7 @@ package com.rahul.simpplr.ui.album;
 
 import android.content.Context;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 
 import com.google.gson.Gson;
 import com.rahul.simpplr.base.BaseViewModel;
@@ -18,14 +15,11 @@ import com.rahul.simpplr.utility.ToastAndErrorMessage;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
 
-import io.reactivex.Completable;
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -45,7 +39,7 @@ public class AlbumViewModel extends BaseViewModel {
     private MutableLiveData<AlbumTracksResponseModel> albumTrackObservable = new MutableLiveData<>();
 
 
-    public MutableLiveData<AlbumResponseModel> getAlbumObservable() {
+    MutableLiveData<AlbumResponseModel> getAlbumObservable() {
         return albumObservable;
     }
 
@@ -69,7 +63,7 @@ public class AlbumViewModel extends BaseViewModel {
                     if (response != null) {
                         JSONObject jsonObject=new JSONObject(response);
 
-                        if(!isTokenExpired(jsonObject)) {
+                        if(isTokenExist(jsonObject)) {
                             AlbumResponseModel albumResponseModel =  new Gson().fromJson(response,AlbumResponseModel.class);
                             albumObservable.setValue(albumResponseModel);
 
@@ -107,7 +101,7 @@ public class AlbumViewModel extends BaseViewModel {
                     if (response != null) {
                         JSONObject jsonObject=new JSONObject(response);
 
-                        if(!isTokenExpired(jsonObject)) {
+                        if(isTokenExist(jsonObject)) {
                             AlbumTracksResponseModel albumTracksResponseModel =  new Gson().fromJson(response,AlbumTracksResponseModel.class);
                             albumTrackObservable.setValue(  modifyTrackResponse(albumTracksResponseModel, playlistId));
                         }else {

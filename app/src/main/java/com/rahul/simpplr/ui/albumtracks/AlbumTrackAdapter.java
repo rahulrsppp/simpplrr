@@ -12,13 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.rahul.simpplr.R;
 import com.rahul.simpplr.databinding.AdapterAlbumBinding;
-import com.rahul.simpplr.ui.album.AlbumResponseModel;
 import com.rahul.simpplr.ui.album.AlbumTracksResponseModel;
 import com.rahul.simpplr.ui.album.TracksResponseData;
-import com.rahul.simpplr.utility.Listeners;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.rahul.simpplr.utility.Util;
 
 import java.util.List;
 
@@ -28,15 +24,15 @@ public class AlbumTrackAdapter extends RecyclerView.Adapter<AlbumTrackAdapter.Vi
     private final Context context;
     private List<AlbumTracksResponseModel.AlbumTracksData> albumTrackList;
 
-    public AlbumTrackAdapter(List<AlbumTracksResponseModel.AlbumTracksData> albumTrackList, Listeners.ItemClickListener listener, Context context) {
+    AlbumTrackAdapter(List<AlbumTracksResponseModel.AlbumTracksData> albumTrackList, Context context) {
         this.albumTrackList = albumTrackList;
-       this.context= context;
+        this.context= context;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-         AdapterAlbumBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.adapter_album, parent, false);
+        AdapterAlbumBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.adapter_album, parent, false);
         return new ViewHolder(binding);
     }
 
@@ -54,7 +50,11 @@ public class AlbumTrackAdapter extends RecyclerView.Adapter<AlbumTrackAdapter.Vi
                 String trackName = trackData.getName();
                 String duration = trackData.getDuration();
                 String artistNameToSet = null;
+                String dateToSet = null;
 
+                if(duration !=null && duration.length()>0){
+                    dateToSet = "Duration: "+ Util.getCompleteTrackDuration(duration);
+                }
 
                 try {
                     List<AlbumTracksResponseModel.AlbumTracksData> artistData = trackData.getArtists();
@@ -63,44 +63,42 @@ public class AlbumTrackAdapter extends RecyclerView.Adapter<AlbumTrackAdapter.Vi
                         artistNameToSet = artistData.get(0).getArtistName();
                     }
 
-
                     AlbumTracksResponseModel.AlbumTracksData albumData = trackData.getAlbum();
                     if (albumData != null) {
                         List<AlbumTracksResponseModel.AlbumTracksData> imagesData = albumData.getImages();
 
                         String imageUrl = imagesData.get(0).getImageUrl();
                         if (imageUrl != null) {
-                            Glide.with(context).load(imageUrl).placeholder(R.drawable.placeholder).into(holder.rowBinding.ivAlbum);
+                            Glide.with(context).load(imageUrl).placeholder(R.mipmap.placeholder).into(holder.rowBinding.ivAlbum);
                         }
                     }
 
+                } catch (Exception ignored) { }
 
-                } catch (Exception ignored) {
-                }
-
+                holder.rowBinding.tvText2.setVisibility(dateToSet != null ? View.VISIBLE : View.GONE);
                 holder.rowBinding.tvText1.setVisibility(artistNameToSet != null ? View.VISIBLE : View.GONE);
                 holder.rowBinding.tvText1.setText(artistNameToSet);
                 holder.rowBinding.tvName.setText(trackName != null && trackName.length() > 0 ? trackName : context.getString(R.string.na));
-                // holder.rowBinding.tvTracks.setText(trackToSet);
+                holder.rowBinding.tvText2.setText(dateToSet!=null?dateToSet:"");
             }
         }
-        }
+    }
 
-        @Override
-        public int getItemCount () {
-            return albumTrackList.size();
-        }
+    @Override
+    public int getItemCount () {
+        return albumTrackList.size();
+    }
 
-        class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
-            AdapterAlbumBinding rowBinding;
+        AdapterAlbumBinding rowBinding;
 
-            private ViewHolder(AdapterAlbumBinding rowBinding) {
-                super(rowBinding.getRoot());
-                this.rowBinding = rowBinding;
-
-            }
+        private ViewHolder(AdapterAlbumBinding rowBinding) {
+            super(rowBinding.getRoot());
+            this.rowBinding = rowBinding;
 
         }
+
+    }
 
 }

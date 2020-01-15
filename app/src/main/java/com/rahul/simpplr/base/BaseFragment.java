@@ -15,16 +15,13 @@ import androidx.databinding.ViewDataBinding;
 
 import javax.inject.Inject;
 
-import dagger.android.support.AndroidSupportInjection;
 import dagger.android.support.DaggerFragment;
 
 
 public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseViewModel> extends DaggerFragment {
 
     private BaseActivity mActivity;
-    private View mRootView;
     private T mViewDataBinding;
-    private V mViewModel;
 
     @Inject
     Context context;
@@ -39,8 +36,7 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof BaseActivity) {
-            BaseActivity activity = (BaseActivity) context;
-            this.mActivity = activity;
+            this.mActivity = (BaseActivity) context;
            // activity.onFragmentAttached();
         }
     }
@@ -48,14 +44,14 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = getViewModel();
+        V mViewModel = getViewModel();
         setHasOptionsMenu(false);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mViewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
-        mRootView = mViewDataBinding.getRoot();
+        View mRootView = mViewDataBinding.getRoot();
         return mRootView;
     }
 
@@ -71,29 +67,11 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
         mViewDataBinding.executePendingBindings();
     }
 
-    public BaseActivity getBaseActivity() {
-        return mActivity;
-    }
 
-    public T getViewDataBinding() {
+    protected T getViewDataBinding() {
         return mViewDataBinding;
     }
 
-    /*public void hideKeyboard() {
-        if (mActivity != null) {
-            mActivity.hideKeyboard();
-        }
-    }
-
-    public boolean isNetworkConnected() {
-        return mActivity != null && mActivity.isNetworkConnected();
-    }
-
-    public void openActivityOnTokenExpire() {
-        if (mActivity != null) {
-            mActivity.openActivityOnTokenExpire();
-        }
-    }*/
 
 
     protected void showToast(String message){

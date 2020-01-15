@@ -10,8 +10,6 @@ import com.rahul.simpplr.db.PreferencesHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.inject.Inject;
-
 import io.reactivex.disposables.CompositeDisposable;
 
 public class BaseViewModel extends ViewModel {
@@ -45,18 +43,18 @@ public class BaseViewModel extends ViewModel {
         return mCompositeDisposable;
     }
 
-    protected  boolean isTokenExpired(JSONObject jsonObject){
+    protected  boolean isTokenExist(JSONObject jsonObject){
         if(jsonObject.has("error")){
             try {
                 JSONObject errorJson = jsonObject.getJSONObject("error");
                 if(errorJson.getInt("status") == 401){
-                    return true;
+                    return false;
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -69,11 +67,8 @@ public class BaseViewModel extends ViewModel {
     }
 
 
-    public ObservableBoolean getIsLoading() {
-        return mIsLoading;
-    }
 
-    public void setIsLoading(boolean isLoading) {
+    protected void setIsLoading(boolean isLoading) {
         mIsLoading.set(isLoading);
     }
 

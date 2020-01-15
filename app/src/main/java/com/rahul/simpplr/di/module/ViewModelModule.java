@@ -7,23 +7,19 @@ import androidx.lifecycle.ViewModelProvider;
 import com.rahul.simpplr.di.utility.ViewModelKey;
 import com.rahul.simpplr.ui.album.AlbumViewModel;
 import com.rahul.simpplr.ui.login.LoginViewModel;
-import com.rahul.simpplr.ui.main.MainViewModel;
 import com.rahul.simpplr.utility.ViewModelFactory;
-
-import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
-import dagger.android.ContributesAndroidInjector;
 import dagger.multibindings.IntoMap;
 
 @Module
 public abstract class ViewModelModule {
 
-    @Binds
+    /*@Binds
     @IntoMap
     @ViewModelKey(MainViewModel.class)
-    abstract ViewModel getMainViewModel(MainViewModel mainViewModel);
+    abstract ViewModel getMainViewModel(MainViewModel mainViewModel);*/
 
     @Binds
     @IntoMap

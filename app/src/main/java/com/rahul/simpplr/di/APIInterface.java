@@ -1,7 +1,5 @@
 package com.rahul.simpplr.di;
 
-import com.rahul.simpplr.ui.login.ProfileResponseModel;
-
 import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Header;

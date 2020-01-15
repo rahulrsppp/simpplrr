@@ -92,7 +92,7 @@ public class AlbumTracksResponseModel {
         private String imageUrl ;
 
 
-        protected AlbumTracksData(Parcel in) {
+        AlbumTracksData(Parcel in) {
             track = in.readParcelable(TracksResponseData.class.getClassLoader());
             album = in.readParcelable(AlbumTracksData.class.getClassLoader());
             artists = in.createTypedArrayList(AlbumTracksData.CREATOR);

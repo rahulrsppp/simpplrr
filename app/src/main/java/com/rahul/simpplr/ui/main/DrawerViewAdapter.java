@@ -4,8 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -13,17 +11,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.bumptech.glide.Glide;
 import com.rahul.simpplr.R;
-import com.rahul.simpplr.databinding.AdapterAlbumBinding;
 import com.rahul.simpplr.databinding.ListGroupParentBinding;
 import com.rahul.simpplr.ui.album.AlbumResponseModel;
 import com.rahul.simpplr.ui.album.AlbumTracksResponseModel;
 import com.rahul.simpplr.utility.Listeners;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -35,7 +28,7 @@ public class DrawerViewAdapter extends RecyclerView.Adapter<DrawerViewAdapter.Dr
     private Listeners.ItemClickListener listener;
 
 
-    public DrawerViewAdapter(List<AlbumResponseModel.AlbumData> albumList, List<AlbumTracksResponseModel.AlbumTracksData> trackList, Listeners.ItemClickListener listener, Context context) {
+    DrawerViewAdapter(List<AlbumResponseModel.AlbumData> albumList, List<AlbumTracksResponseModel.AlbumTracksData> trackList, Listeners.ItemClickListener listener, Context context) {
         this.albumList = albumList;
         this.listener= listener;
         this.context= context;
@@ -66,7 +59,7 @@ public class DrawerViewAdapter extends RecyclerView.Adapter<DrawerViewAdapter.Dr
                 AlbumResponseModel.AlbumData images = albumData.getImages().get(0);
 
                 if (images.getImageUrl() != null)
-                    Glide.with(context).load(images.getImageUrl()).placeholder(R.drawable.placeholder).into(holder.rowBinding.ivAlbum);
+                    Glide.with(context).load(images.getImageUrl()).placeholder(R.mipmap.placeholder).into(holder.rowBinding.ivAlbum);
             }
 
             if(isSelected == 1 && trackList!=null){
