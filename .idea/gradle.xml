@@ -12,7 +12,6 @@
             <option value="$PROJECT_DIR$/app-remote-lib" />
             <option value="$PROJECT_DIR$/app-remote-sample" />
             <option value="$PROJECT_DIR$/auth-lib" />
-            <option value="$PROJECT_DIR$/auth-sample" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

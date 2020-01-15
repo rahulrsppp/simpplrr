@@ -66,8 +66,12 @@ public class AlbumResponseModel {
         @SerializedName("uri")
         private String uri ;
 
+        private int isSelected;
 
-        protected AlbumData(Parcel in) {
+        public AlbumData() {
+        }
+
+        public AlbumData(Parcel in) {
             id = in.readString();
             name = in.readString();
             description = in.readString();
@@ -77,6 +81,7 @@ public class AlbumResponseModel {
             total = in.readInt();
             type = in.readString();
             uri = in.readString();
+            isSelected = in.readInt();
         }
 
         public static final Creator<AlbumData> CREATOR = new Creator<AlbumData>() {
@@ -163,6 +168,14 @@ public class AlbumResponseModel {
             this.uri = uri;
         }
 
+        public int getIsSelected() {
+            return isSelected;
+        }
+
+        public void setIsSelected(int isSelected) {
+            this.isSelected = isSelected;
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -179,8 +192,7 @@ public class AlbumResponseModel {
             dest.writeInt(total);
             dest.writeString(type);
             dest.writeString(uri);
-
-
+            dest.writeInt(isSelected);
         }
     }
 

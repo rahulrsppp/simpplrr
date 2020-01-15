@@ -1,5 +1,7 @@
+<layout>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/llMain"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -24,11 +26,29 @@
         android:layout_height="wrap_content"
         android:text="@string/nav_header_title"
         android:textStyle="bold"
+        android:textSize="@dimen/sp_18"
+        android:textColor="@color/colorPrimary"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/ivAlbum"
         app:layout_constraintStart_toEndOf="@+id/ivAlbum"
         app:layout_constraintTop_toTopOf="@+id/ivAlbum" />
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTrack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:dividerHeight="0dp"
+        android:groupIndicator="@null"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivAlbum"
+        android:layout_marginStart="@dimen/dp_20"
+        android:visibility="gone"
+       />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
+</layout>

@@ -1,11 +1,11 @@
 #Internal package file, do not edit.
-#Tue Jan 14 07:24:29 IST 2020
-1.base=G\:\\Simplrr\\auth-sample\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+#Wed Jan 15 17:30:16 IST 2020
+1.base=E\:\\Rahul\\A Rahul Personal\\simpplrr bitbucket\\auth-sample\\build\\intermediates\\transforms\\dexMerger\\debug\\1
 0.baseType=DIRECTORY
 1.baseType=DIRECTORY
 count=2
 1.set=DEX
 0.path=classes.dex
 0.set=DEX
-0.base=G\:\\Simplrr\\auth-sample\\build\\intermediates\\transforms\\dexMerger\\debug\\1
+0.base=E\:\\Rahul\\A Rahul Personal\\simpplrr bitbucket\\auth-sample\\build\\intermediates\\transforms\\dexMerger\\debug\\0
 1.path=classes.dex

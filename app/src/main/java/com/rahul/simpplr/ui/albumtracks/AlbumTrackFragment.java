@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.rahul.simpplr.R;
 import com.rahul.simpplr.base.BaseFragment;
@@ -21,6 +23,7 @@ import com.rahul.simpplr.utility.ViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -50,6 +53,7 @@ public class AlbumTrackFragment extends BaseFragment<FragmentAlbumBinding, Album
         return fragment;
     }
 
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_album;
@@ -75,7 +79,7 @@ public class AlbumTrackFragment extends BaseFragment<FragmentAlbumBinding, Album
         subscribeObserver();
 
         if(playlistId!=null) {
-            viewModel.fetchAlbumTrackInfo(playlistId, false, null);
+            viewModel.fetchAlbumTrackInfo(playlistId);
         }
     }
 
@@ -91,7 +95,16 @@ public class AlbumTrackFragment extends BaseFragment<FragmentAlbumBinding, Album
         super.onCreateView(inflater, container, savedInstanceState);
         mBinding = getViewDataBinding();
         setAdapter();
+        setListener();
         return mBinding.getRoot();
+    }
+
+    private void setListener() {
+        mBinding.swipeRefresh.setOnRefreshListener(() -> {
+            if(playlistId!=null) {
+                viewModel.fetchAlbumTrackInfo(playlistId);
+            }
+        });
     }
 
     private void setAdapter() {
@@ -99,13 +112,19 @@ public class AlbumTrackFragment extends BaseFragment<FragmentAlbumBinding, Album
         adapter = new AlbumTrackAdapter(albumTrackList,this, getContext());
         mBinding.rvAlbum.setLayoutManager(new LinearLayoutManager(getContext()));
         mBinding.rvAlbum.setAdapter(adapter);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Objects.requireNonNull(((AppCompatActivity) context).getSupportActionBar()).setTitle(context.getString(R.string.tracks));
     }
 
     private void subscribeObserver() {
         viewModel.getToastObservable().observe(this, this::showToast);
         viewModel.getAlbumTrackObservable().observe(this, albumTrackData -> {
 
+            mBinding.swipeRefresh.setRefreshing(false);
             if(albumTrackData !=null){
                 List<AlbumTracksResponseModel.AlbumTracksData> albumList =  albumTrackData.getItems();
                 albumTrackList.clear();

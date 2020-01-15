@@ -24,6 +24,8 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -41,9 +43,7 @@ public class AlbumViewModel extends BaseViewModel {
 
     private MutableLiveData<AlbumResponseModel> albumObservable = new MutableLiveData<>();
     private MutableLiveData<AlbumTracksResponseModel> albumTrackObservable = new MutableLiveData<>();
-    private List<CompleteInfoModel> completeInfoList = new ArrayList<>();
-    private MutableLiveData<List<CompleteInfoModel>> completeInfoLiveData = new MutableLiveData<>();
-    private boolean isLastAlbum=false;
+
 
     public MutableLiveData<AlbumResponseModel> getAlbumObservable() {
         return albumObservable;
@@ -51,10 +51,6 @@ public class AlbumViewModel extends BaseViewModel {
 
     public MutableLiveData<AlbumTracksResponseModel> getAlbumTrackObservable() {
         return albumTrackObservable;
-    }
-
-    public MutableLiveData<List<CompleteInfoModel>> getCompleteDataObservable() {
-        return completeInfoLiveData;
     }
 
     @Inject
@@ -77,8 +73,6 @@ public class AlbumViewModel extends BaseViewModel {
                             AlbumResponseModel albumResponseModel =  new Gson().fromJson(response,AlbumResponseModel.class);
                             albumObservable.setValue(albumResponseModel);
 
-                            fetchAndPrepareAlbumWithTracks(albumResponseModel);
-
                         }else {
                             preferencesHelper.setStringData(AppPreferencesHelper.PREF_KEY_ACCESS_TOKEN, null);
                             getToastObservable().setValue(ToastAndErrorMessage.TOKEN_EXPIRED);
@@ -92,38 +86,18 @@ public class AlbumViewModel extends BaseViewModel {
                         getToastObservable().setValue(ToastAndErrorMessage.TOKEN_EXPIRED);
                         preferencesHelper.setStringData(AppPreferencesHelper.PREF_KEY_ACCESS_TOKEN,null);
                         preferencesHelper.setBooleanData(AppPreferencesHelper.PREF_KEY_IS_LOGGED_IN,false);
-                        albumObservable.setValue(null);
-
                     }else{
-                        getToastObservable().setValue(throwable.getMessage());
-
+                        getToastObservable().setValue(ToastAndErrorMessage.PLEASE_CHECK_INTERNET);
                     }
+                    albumObservable.setValue(null);
+
                 }));
     }
 
-    private void fetchAndPrepareAlbumWithTracks(AlbumResponseModel albumResponseModel) {
-        List<AlbumResponseModel.AlbumData> albumList =  albumResponseModel.getItems();
-        if(albumList.size()>0) {
-            for (int i = 0; i < albumList.size(); i++) {
-                CompleteInfoModel completeInfoModel = new CompleteInfoModel();
-                completeInfoModel.setAlbumId(albumList.get(i).getId());
-                completeInfoModel.setAlbumName(albumList.get(i).getName());
-
-                if (albumList.get(i).getImages() != null && albumList.get(i).getImages().get(0) != null)
-                    completeInfoModel.setAlbumImage(albumList.get(i).getImages().get(0).getImageUrl());
-
-                fetchAlbumTrackInfo(albumList.get(i).getId(), true, completeInfoModel);
-
-                if(i==albumList.size()-1){
-                    isLastAlbum = true;
-                }
-            }
 
 
-        }
-    }
 
-    public void fetchAlbumTrackInfo(String playlistId, boolean forCompleteData, CompleteInfoModel completeInfoModel) {
+    public void fetchAlbumTrackInfo(String playlistId) {
         setIsLoading(true);
 
         getCompositeDisposable().add(apiInterface.getPlaylistTracks(getAuthToken(preferencesHelper), playlistId,String.valueOf(50),String.valueOf(0))
@@ -135,12 +109,7 @@ public class AlbumViewModel extends BaseViewModel {
 
                         if(!isTokenExpired(jsonObject)) {
                             AlbumTracksResponseModel albumTracksResponseModel =  new Gson().fromJson(response,AlbumTracksResponseModel.class);
-
-                            if(forCompleteData){
-                                prepareCompleteInfoList(albumTracksResponseModel,completeInfoModel);
-                            }else{
-                                albumTrackObservable.setValue(albumTracksResponseModel);
-                            }
+                            albumTrackObservable.setValue(  modifyTrackResponse(albumTracksResponseModel, playlistId));
                         }else {
                             preferencesHelper.setStringData(AppPreferencesHelper.PREF_KEY_ACCESS_TOKEN, null);
                             preferencesHelper.setBooleanData(AppPreferencesHelper.PREF_KEY_IS_LOGGED_IN,false);
@@ -156,35 +125,22 @@ public class AlbumViewModel extends BaseViewModel {
                         getToastObservable().setValue(ToastAndErrorMessage.TOKEN_EXPIRED);
                         preferencesHelper.setStringData(AppPreferencesHelper.PREF_KEY_ACCESS_TOKEN,null);
                         preferencesHelper.setBooleanData(AppPreferencesHelper.PREF_KEY_IS_LOGGED_IN,false);
-                        albumTrackObservable.setValue(null);
-
                     }else{
-                        getToastObservable().setValue(throwable.getMessage());
-
+                        getToastObservable().setValue(ToastAndErrorMessage.PLEASE_CHECK_INTERNET);
                     }
+                    albumTrackObservable.setValue(null);
                 }));
     }
 
-    private void prepareCompleteInfoList(AlbumTracksResponseModel albumTracksResponseModel, CompleteInfoModel completeInfoModel) {
-        if(albumTracksResponseModel.getItems()!=null){
-            List<AlbumTracksResponseModel.AlbumTracksData> albumTracksList = albumTracksResponseModel.getItems();
-            List<CompleteInfoModel.CompleteInfoData> tracksList =   new ArrayList<>();
+    private AlbumTracksResponseModel modifyTrackResponse(AlbumTracksResponseModel albumTracksResponseModel, String playlistId) {
 
-            if(albumTracksList.size()>0){
-                for (AlbumTracksResponseModel.AlbumTracksData albumTrackData : albumTracksList) {
-                    CompleteInfoModel.CompleteInfoData trackData = new CompleteInfoModel.CompleteInfoData();
-                    trackData.setTrackName(albumTrackData.getTrack().getName());
-                    trackData.setTrackId(albumTrackData.getTrack().getTrackId());
-                    tracksList.add(trackData);
-                }
-                completeInfoModel.setTracks(tracksList);
+        if (albumTracksResponseModel != null) {
+            List<AlbumTracksResponseModel.AlbumTracksData> albumList = albumTracksResponseModel.getItems();
+            for (AlbumTracksResponseModel.AlbumTracksData albumData : albumList) {
+                albumData.setAlbumId(playlistId);
             }
         }
-        completeInfoList.add(completeInfoModel);
-
-        if(isLastAlbum){
-            completeInfoLiveData.setValue(completeInfoList);
-        }
+        return albumTracksResponseModel;
     }
 
 

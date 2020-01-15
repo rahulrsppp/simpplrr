@@ -1,4 +1,4 @@
-package com.rahul.simpplr.ui.album;
+package com.rahul.simpplr.ui.main;
 
 import android.os.Parcel;
 import android.os.Parcelable;

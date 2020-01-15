@@ -14,15 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <!--<com.google.android.material.navigation.NavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:headerLayout="@layout/nav_header_main"
-            app:menu="@menu/activity_main_drawer" />-->
-
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"
             android:layout_width="wrap_content"
@@ -31,8 +22,8 @@
             app:headerLayout="@layout/nav_header_main"
             android:fitsSystemWindows="false">
 
-            <ExpandableListView
-                android:id="@+id/expandableListView"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/nav_header_height"

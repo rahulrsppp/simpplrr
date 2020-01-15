@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "G:\\Simplrr\\auth-sample\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-nl\\values-nl.xml",
+            "outputFile": "E:\\Rahul\\A Rahul Personal\\simpplrr bitbucket\\auth-sample\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-nl\\values-nl.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\RahulPp\\.gradle\\caches\\transforms-2\\files-2.1\\0e4e99791f5e76d0530c9f373858cb68\\res\\values-nl\\values-nl.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-2\\files-2.1\\ca8f07551fba923e7f718dc7d5c174c7\\res\\values-nl\\values-nl.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\RahulPp\\.gradle\\caches\\transforms-2\\files-2.1\\804435e55d140965928ff9dd2917ffb0\\res\\values-nl\\values-nl.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-2\\files-2.1\\4e158134e65b2d8f0b002d642571c599\\res\\values-nl\\values-nl.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

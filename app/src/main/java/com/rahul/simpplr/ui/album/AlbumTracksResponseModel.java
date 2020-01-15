@@ -60,6 +60,9 @@ public class AlbumTracksResponseModel {
         private TracksResponseData track ;
 
 
+        private String albumId;
+
+
         @SerializedName("album")
         private AlbumTracksData album ;
 
@@ -100,6 +103,7 @@ public class AlbumTracksResponseModel {
             popularity = in.readString();
             images = in.createTypedArrayList(AlbumTracksData.CREATOR);
             imageUrl = in.readString();
+            albumId = in.readString();
         }
 
         public static final Creator<AlbumTracksData> CREATOR = new Creator<AlbumTracksData>() {
@@ -113,6 +117,14 @@ public class AlbumTracksResponseModel {
                 return new AlbumTracksData[size];
             }
         };
+
+        public String getAlbumId() {
+            return albumId;
+        }
+
+        public void setAlbumId(String albumId) {
+            this.albumId = albumId;
+        }
 
         public AlbumTracksData getAlbum() {
             return album;
@@ -229,6 +241,7 @@ public class AlbumTracksResponseModel {
             dest.writeString(popularity);
             dest.writeTypedList(images);
             dest.writeString(imageUrl);
+            dest.writeString(albumId);
         }
     }
 

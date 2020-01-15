@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "G:\\Simplrr\\auth-sample\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v26\\values-v26.xml",
+            "outputFile": "E:\\Rahul\\A Rahul Personal\\simpplrr bitbucket\\auth-sample\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v26\\values-v26.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\RahulPp\\.gradle\\caches\\transforms-2\\files-2.1\\0e4e99791f5e76d0530c9f373858cb68\\res\\values-v26\\values-v26.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-2\\files-2.1\\ca8f07551fba923e7f718dc7d5c174c7\\res\\values-v26\\values-v26.xml",
                     "from": {
                         "startLines": "2,3,4,8,12,16",
                         "startColumns": "4,4,4,4,4,4",
