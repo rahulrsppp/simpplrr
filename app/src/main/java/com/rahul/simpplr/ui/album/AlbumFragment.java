@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.rahul.simpplr.R;
@@ -100,6 +101,7 @@ public class AlbumFragment extends BaseFragment<FragmentAlbumBinding, AlbumViewM
         albumDataList =new ArrayList<>();
         adapter = new AlbumAdapter(albumDataList,this, getContext());
         mBinding.rvAlbum.setLayoutManager(new LinearLayoutManager(getContext()));
+        mBinding.rvAlbum.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         mBinding.rvAlbum.setAdapter(adapter);
     }
 

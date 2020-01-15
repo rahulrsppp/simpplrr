@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -78,6 +79,12 @@ public class AlbumTrackFragment extends BaseFragment<FragmentAlbumBinding, Album
         getIntent();
         subscribeObserver();
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
         if(playlistId!=null) {
             viewModel.fetchAlbumTrackInfo(playlistId);
         }
@@ -111,6 +118,7 @@ public class AlbumTrackFragment extends BaseFragment<FragmentAlbumBinding, Album
         albumTrackList =new ArrayList<>();
         adapter = new AlbumTrackAdapter(albumTrackList,this, getContext());
         mBinding.rvAlbum.setLayoutManager(new LinearLayoutManager(getContext()));
+        mBinding.rvAlbum.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         mBinding.rvAlbum.setAdapter(adapter);
     }
 
