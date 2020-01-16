@@ -34,9 +34,6 @@ def jUnitVersion = '4.12'
 def testRunnerVersion = '1.2.0'
 def espressoVersion = '3.2.0'
 def daggerVersion = '2.22'
-def daggerCompilerVersion = '2.15'
-def daggerAndroidSupportVersion = '2.16'
-def daggerAndroidProcessorVersion = '2.15'
 def archLifeCycleExtensionVersion = '2.1.0'
 def retrofitVersion = '2.4.0'
 def convertorScalarVersion = '2.3.0'
@@ -71,7 +68,6 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glideVersion"
 
 
-    implementation project(path: ':auth-lib')
     implementation project(path: ':app-remote-lib')
 
 }

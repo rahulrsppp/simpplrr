@@ -45,14 +45,5 @@ public class AppPreferencesHelper implements PreferencesHelper {
         mPrefs.edit().putBoolean(key, data).apply();
     }
 
-    @Override
-    public Integer getIntData(String key) {
-        return mPrefs.getInt(key, 0);
-    }
 
-    @Override
-    public void setIntData(String key, int data) {
-        mPrefs.edit().putInt(key, data).apply();
-
-    }
 }
